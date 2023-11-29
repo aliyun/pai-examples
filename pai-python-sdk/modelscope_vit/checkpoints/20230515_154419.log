@@ -1,0 +1,279 @@
+2023-05-15 15:44:19,664 - modelscope - INFO - Environment info:
+------------------------------------------------------------
+sys.platform: darwin
+Python: 3.8.3 (default, Jul  2 2020, 11:26:31) [Clang 10.0.0 ]
+CUDA available: False
+GCC: Apple clang version 13.1.6 (clang-1316.0.21.2)
+PyTorch: 1.13.1
+PyTorch compiling details: PyTorch built with:
+  - GCC 4.2
+  - C++ Version: 201402
+  - clang 14.0.0
+  - Intel(R) Math Kernel Library Version 2020.0.1 Product Build 20200208 for Intel(R) 64 architecture applications
+  - Intel(R) MKL-DNN v2.6.0 (Git Hash 52b5f107dd9cf10910aaa19cb47f3abf9b349815)
+  - LAPACK is enabled (usually provided by MKL)
+  - NNPACK is enabled
+  - CPU capability usage: NO AVX
+  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, CXX_COMPILER=/Applications/Xcode_14.0.1.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++, CXX_FLAGS= -Wno-deprecated -fvisibility-inlines-hidden -Wno-deprecated-declarations -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOCUPTI -DUSE_FBGEMM -DUSE_QNNPACK -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DUSE_PYTORCH_METAL_EXPORT -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -DEDGE_PROFILER_USE_KINETO -DUSE_COREML_DELEGATE -O2 -fPIC -Wno-narrowing -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wunused-local-typedefs -Wno-unused-parameter -Wno-unused-function -Wno-unused-result -Wno-strict-overflow -Wno-strict-aliasing -Wno-error=deprecated-declarations -Wvla-extension -Wno-range-loop-analysis -Wno-pass-failed -Wno-error=pedantic -Wno-error=redundant-decls -Wno-error=old-style-cast -Wconstant-conversion -Wno-invalid-partial-specialization -Wno-typedef-redefinition -Wno-unused-private-field -Wno-inconsistent-missing-override -Wno-c++14-extensions -Wno-constexpr-not-const -Wno-missing-braces -Wunused-lambda-capture -Wunused-local-typedef -Qunused-arguments -fcolor-diagnostics -fdiagnostics-color=always -fno-math-errno -fno-trapping-math -Werror=format -Werror=cast-function-type -DUSE_MPS -fno-objc-arc -Wno-unguarded-availability-new -Wno-unused-private-field -Wno-missing-braces -Wno-c++14-extensions -Wno-constexpr-not-const, LAPACK_INFO=mkl, PERF_WITH_AVX512=1, TORCH_VERSION=1.13.1, USE_CUDA=OFF, USE_CUDNN=OFF, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=OFF, USE_NNPACK=ON, USE_OPENMP=OFF, USE_ROCM=OFF, 
+
+TorchVision: 0.14.1
+OpenCV: 4.7.0
+MMCV: 1.7.1
+MMCV Compiler: n/a
+MMCV CUDA Compiler: n/a
+MMClassification: 0.25.0+2d5cea3
+------------------------------------------------------------
+
+2023-05-15 15:44:20,486 - modelscope - INFO - Distributed training: False
+2023-05-15 15:44:21,231 - modelscope - INFO - Config:
+framework = 'pytorch'
+task = 'image-classification'
+pipeline = dict(type='vit-base_image-classification_ImageNet-labels')
+model = dict(
+    type='ClassificationModel',
+    mm_model=dict(
+        type='ImageClassifier',
+        pretrained=None,
+        backbone=dict(
+            type='VisionTransformer',
+            arch='deit-base',
+            img_size=224,
+            patch_size=16,
+            drop_path_rate=0.1),
+        neck=None,
+        head=dict(
+            type='VisionTransformerClsHead',
+            num_classes=14,
+            in_channels=768,
+            loss=dict(
+                type='LabelSmoothLoss', label_smooth_val=0.1,
+                mode='original')),
+        init_cfg=[
+            dict(type='TruncNormal', layer='Linear', std=0.02),
+            dict(type='Constant', layer='LayerNorm', val=1.0, bias=0.0)
+        ],
+        train_cfg=dict(augments=[
+            dict(type='BatchMixup', alpha=0.8, num_classes=14, prob=0.5),
+            dict(type='BatchCutMix', alpha=1.0, num_classes=14, prob=0.5)
+        ])))
+dataset = dict(classes=None)
+preprocessor = dict(
+    type='image-classification-bypass-preprocessor',
+    train=[
+        dict(type='LoadImageFromFile'),
+        dict(
+            type='RandomResizedCrop',
+            size=224,
+            backend='pillow',
+            interpolation='bicubic'),
+        dict(type='RandomFlip', flip_prob=0.5, direction='horizontal'),
+        dict(
+            type='RandAugment',
+            policies=[
+                dict(type='AutoContrast'),
+                dict(type='Equalize'),
+                dict(type='Invert'),
+                dict(
+                    type='Rotate',
+                    magnitude_key='angle',
+                    magnitude_range=[0, 30]),
+                dict(
+                    type='Posterize',
+                    magnitude_key='bits',
+                    magnitude_range=[4, 0]),
+                dict(
+                    type='Solarize',
+                    magnitude_key='thr',
+                    magnitude_range=[256, 0]),
+                dict(
+                    type='SolarizeAdd',
+                    magnitude_key='magnitude',
+                    magnitude_range=[0, 110]),
+                dict(
+                    type='ColorTransform',
+                    magnitude_key='magnitude',
+                    magnitude_range=[0, 0.9]),
+                dict(
+                    type='Contrast',
+                    magnitude_key='magnitude',
+                    magnitude_range=[0, 0.9]),
+                dict(
+                    type='Brightness',
+                    magnitude_key='magnitude',
+                    magnitude_range=[0, 0.9]),
+                dict(
+                    type='Sharpness',
+                    magnitude_key='magnitude',
+                    magnitude_range=[0, 0.9]),
+                dict(
+                    type='Shear',
+                    magnitude_key='magnitude',
+                    magnitude_range=[0, 0.3],
+                    direction='horizontal'),
+                dict(
+                    type='Shear',
+                    magnitude_key='magnitude',
+                    magnitude_range=[0, 0.3],
+                    direction='vertical'),
+                dict(
+                    type='Translate',
+                    magnitude_key='magnitude',
+                    magnitude_range=[0, 0.45],
+                    direction='horizontal'),
+                dict(
+                    type='Translate',
+                    magnitude_key='magnitude',
+                    magnitude_range=[0, 0.45],
+                    direction='vertical')
+            ],
+            num_policies=2,
+            total_level=10,
+            magnitude_level=9,
+            magnitude_std=0.5,
+            hparams=dict(pad_val=[104, 116, 124], interpolation='bicubic')),
+        dict(
+            type='RandomErasing',
+            erase_prob=0.25,
+            mode='rand',
+            min_area_ratio=0.02,
+            max_area_ratio=0.3333333333333333,
+            fill_color=[103.53, 116.28, 123.675],
+            fill_std=[57.375, 57.12, 58.395]),
+        dict(
+            type='Normalize',
+            mean=[123.675, 116.28, 103.53],
+            std=[58.395, 57.12, 57.375],
+            to_rgb=True),
+        dict(type='ImageToTensor', keys=['img']),
+        dict(type='ToTensor', keys=['gt_label']),
+        dict(type='Collect', keys=['img', 'gt_label'])
+    ],
+    val=[
+        dict(type='LoadImageFromFile'),
+        dict(
+            type='Resize',
+            size=[256, -1],
+            backend='pillow',
+            interpolation='bicubic'),
+        dict(type='CenterCrop', crop_size=224),
+        dict(
+            type='Normalize',
+            mean=[123.675, 116.28, 103.53],
+            std=[58.395, 57.12, 57.375],
+            to_rgb=True),
+        dict(type='ImageToTensor', keys=['img']),
+        dict(type='Collect', keys=['img'])
+    ])
+train = dict(
+    dataloader=dict(batch_size_per_gpu=16, workers_per_gpu=8),
+    max_epochs=1,
+    runner=dict(type='EpochBasedRunner', max_epochs=1),
+    evaluation=dict(interval=1, metric='accuracy', save_best='auto'),
+    checkpoint_config=dict(
+        interval=1, max_keep_ckpts=20, create_symlink=False),
+    log_config=dict(interval=100, hooks=[dict(type='TextLoggerHook')]),
+    custom_hooks=[
+        dict(type='EMAHook', momentum=4e-05, priority='ABOVE_NORMAL')
+    ],
+    workflow=[['train', 1]],
+    work_dir='./work_dir',
+    optimizer=dict(
+        type='AdamW',
+        lr=0.001,
+        weight_decay=0.1,
+        eps=1e-08,
+        betas=[0.9, 0.999],
+        paramwise_cfg=dict(
+            norm_decay_mult=0.0,
+            bias_decay_mult=0.0,
+            custom_keys=dict({
+                '.absolute_pos_embed':
+                dict(decay_mult=0.0),
+                '.relative_position_bias_table':
+                dict(decay_mult=0.0),
+                '.cls_token':
+                dict(decay_mult=0.0),
+                '.pos_embed':
+                dict(decay_mult=0.0)
+            }))),
+    optimizer_config=dict(grad_clip=dict(max_norm=5.0)),
+    lr_config=dict(
+        policy='CosineAnnealing',
+        by_epoch=False,
+        min_lr_ratio=0.01,
+        warmup='linear',
+        warmup_ratio=0.001,
+        warmup_iters=1,
+        warmup_by_epoch=True),
+    resume_from=None,
+    load_from=
+    '/Users/liangquan/.cache/modelscope/hub/damo/cv_vit-base_image-classification_ImageNet-labels/pytorch_model.pt'
+)
+evaluation = dict(
+    dataloader=dict(batch_size_per_gpu=32, workers_per_gpu=4),
+    metrics=['accuracy'])
+work_dir = './checkpoints/'
+device = 'cuda'
+gpu_ids = [0]
+fp16 = None
+no_validate = False
+
+2023-05-15 15:44:21,232 - modelscope - INFO - Set random seed to 0, deterministic: False
+2023-05-15 15:44:24,922 - modelscope - INFO - load checkpoint from local path: /Users/liangquan/.cache/modelscope/hub/damo/cv_vit-base_image-classification_ImageNet-labels/pytorch_model.pt
+2023-05-15 15:44:25,620 - modelscope - WARNING - The model and loaded state dict do not match exactly
+
+size mismatch for head.layers.head.weight: copying a param with shape torch.Size([1000, 768]) from checkpoint, the shape in current model is torch.Size([14, 768]).
+size mismatch for head.layers.head.bias: copying a param with shape torch.Size([1000]) from checkpoint, the shape in current model is torch.Size([14]).
+2023-05-15 15:44:25,669 - modelscope - INFO - Start running, host: liangquan@MacBookPro, work_dir: /Users/liangquan/code/pypai/docs/source/tutorial/modelscope_vit/checkpoints
+2023-05-15 15:44:25,669 - modelscope - INFO - Hooks will be executed in the following order:
+before_run:
+(VERY_HIGH   ) CosineAnnealingLrUpdaterHook       
+(ABOVE_NORMAL) EMAHook                            
+(NORMAL      ) CheckpointHook                     
+(LOW         ) EvalHook                           
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+before_train_epoch:
+(VERY_HIGH   ) CosineAnnealingLrUpdaterHook       
+(ABOVE_NORMAL) EMAHook                            
+(LOW         ) IterTimerHook                      
+(LOW         ) EvalHook                           
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+before_train_iter:
+(VERY_HIGH   ) CosineAnnealingLrUpdaterHook       
+(LOW         ) IterTimerHook                      
+(LOW         ) EvalHook                           
+ -------------------- 
+after_train_iter:
+(ABOVE_NORMAL) OptimizerHook                      
+(ABOVE_NORMAL) EMAHook                            
+(NORMAL      ) CheckpointHook                     
+(LOW         ) IterTimerHook                      
+(LOW         ) EvalHook                           
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+after_train_epoch:
+(ABOVE_NORMAL) EMAHook                            
+(NORMAL      ) CheckpointHook                     
+(LOW         ) EvalHook                           
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+before_val_epoch:
+(LOW         ) IterTimerHook                      
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+before_val_iter:
+(LOW         ) IterTimerHook                      
+ -------------------- 
+after_val_iter:
+(LOW         ) IterTimerHook                      
+ -------------------- 
+after_val_epoch:
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+after_run:
+(VERY_LOW    ) TextLoggerHook                     
+ -------------------- 
+2023-05-15 15:44:25,670 - modelscope - INFO - workflow: [('train', 1)], max: 1 epochs
+2023-05-15 15:44:25,762 - modelscope - INFO - Checkpoints will be saved to /Users/liangquan/code/pypai/docs/source/tutorial/modelscope_vit/checkpoints by HardDiskBackend.
