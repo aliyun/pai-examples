@@ -1,11 +1,11 @@
-===========================================
-模型开发
-===========================================
+=============
+Model Train
+=============
 
 .. toctree::
     :maxdepth: 1
 
-    pretrained-model/pretrained-model
-    pytorch_ddp/pytorch_ddp
-    tensorboard/tensorboard
-    checkpoint/checkpoint
+    Use PreTrained Model<pretrained-model/pretrained-model>
+    PyTorch Distrubition<pytorch_ddp/pytorch_ddp>
+    TensorBoard<tensorboard/tensorboard>
+    Checkpoints<checkpoint/checkpoint>

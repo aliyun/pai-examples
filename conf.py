@@ -6,9 +6,9 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'pai-examples'
-copyright = '2023, Alibaba Cloud'
-author = 'Alibaba Cloud'
+project = "pai-examples"
+copyright = "2023, Alibaba Cloud"
+author = "Alibaba Cloud"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -18,14 +18,9 @@ extensions = [
     "myst_nb",
 ]
 
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
-exclude_patterns = [
-    "_build/*",
-    "source/_build/*",
-    "build/*",
-    "docs/build/*"
-]
+exclude_patterns = ["_build/*", "source/_build/*", "build/*", "docs/build/*"]
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
@@ -36,4 +31,3 @@ html_title = "PAI Examples"
 # -- Extension configuration -------------------------------------------------
 
 nb_execution_mode = "off"
-  

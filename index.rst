@@ -8,12 +8,14 @@ Welcome to PAI Examples's documentation!
     :caption: PAI Python SDK
 
     pai-python-sdk/train
-    pai-python-sdk/predict
+    pai-python-sdk/deploy
     pai-python-sdk/framework
     pai-python-sdk/advance
 
+
 .. toctree:: 
    :maxdepth: 1
-   :caption: Algorithms
+   :caption: Algorithms && Models
 
-   algorithm/
+   ChatGLM deploy and finetune<algorithms/chatglm_finetune/chatglm_finetune>
+   StableDiffusion LoRA<algorithms/kohya_lora_trainer/kohya_lora_trainer>
