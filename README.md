@@ -1,6 +1,8 @@
 # AlibabaCloud PAI Examples
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
+English \| [简体中文](./README_CN.md)
+
 Welcome to the [Alibaba Cloud Platform for Artificial Intelligence(PAI)](https://help.aliyun.com/zh/pai) example repository.
 
 
@@ -8,7 +10,7 @@ Welcome to the [Alibaba Cloud Platform for Artificial Intelligence(PAI)](https:/
 
 [Alibaba Cloud PAI](https://help.aliyun.com/zh/pai) is a Machine Learning Platform for AI developers to build, train and deploy AI models at scale. It supports all kinds of popular machine learning frameworks such as TensorFlow, PyTorch, and so on. PAI also provides a large number of built-in algorithms and pre-trained models for you to use directly.
 
-The repository contains example that demonstrate how to train and deploy ML Model using Alibaba Cloud PAI.
+This repository provides sample Notebooks to help developers get started with PAI quickly, understanding its basic functions and usage.
 
 
 ## 🚀 How to use
@@ -23,9 +25,10 @@ git clone git@github.com:aliyun/pai-examples.git
 
 ## 📃 License
 
-
 The project is developed by Alibaba Cloud and licensed under the Apache License (Version 2.0).
 
-## ☎️ Contact
+## 📬 Contact
 
-For support or inquiries, please open an issue on the GitHub repository.
+For support or inquiries, please open an issue on the GitHub repository or contact us in the DingTalk group:
+
+<img src="./_static/dingtalk-group.png" alt="DingTalkGroup" width="400"/>
