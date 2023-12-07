@@ -1,0 +1,5 @@
+
+
+# 部分ModelScope依赖library由ModelScope Host，需要显式配置以下参数
+--find-links https://modelscope.oss-cn-beijing.aliyuncs.com/releases/repo.html
+modelscope[cv]==1.3.1
