@@ -26,7 +26,7 @@ git clone git@github.com:aliyun/pai-examples.git
 
 ## 📃 License
 
-PAI Python SDK是由阿里云开发，并根据Apache许可证（版本2.0）授权使用。
+本项目是由阿里云开发，并根据Apache许可证（版本2.0）授权使用。
 
 ## 📬 联系方式
 

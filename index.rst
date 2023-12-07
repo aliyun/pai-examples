@@ -13,7 +13,7 @@ Welcome to PAI Examples's documentation!
     pai-python-sdk/advance
 
 
-.. toctree:: 
+.. toctree::
    :maxdepth: 1
    :caption: Algorithms && Models
 
