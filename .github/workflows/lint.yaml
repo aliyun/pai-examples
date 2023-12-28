@@ -7,7 +7,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  quality-lint:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,7 +16,6 @@ jobs:
         with:
           python-version: "3.8"
       - name: Install pre-commit hook
-        run: |
-          pip install pre-commit
-      - name: Linting
+        run: pip install pre-commit
+      - name: Run pre-commit hook
         run: pre-commit run --all-files
