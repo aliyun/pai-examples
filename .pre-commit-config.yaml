@@ -24,11 +24,6 @@ repos:
           - typos.toml
           - -w
 
-  - repo: https://github.com/kynan/nbstripout
-    rev: 0.6.1
-    hooks:
-      - id: nbstripout
-
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.16.1
     hooks:
