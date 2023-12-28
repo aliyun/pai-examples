@@ -1,6 +1,6 @@
 
 # 模型需要的依赖
-transformers==4.30.2
+transformers==4.36.0
 accelerate
 icetk
 cpm_kernels
