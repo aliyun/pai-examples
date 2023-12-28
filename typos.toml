@@ -1,1 +1,5 @@
 [files]
+
+[default.extend-words]
+# Don't correct the word "jave"
+jave = "jave"
