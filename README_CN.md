@@ -32,4 +32,4 @@ git clone git@github.com:aliyun/pai-examples.git
 
 如需支持或咨询，请在GitHub仓库中提交issue，或通过钉钉群联系我们：
 
-<img src="./_static/dingtalk-group.png" alt="DingTalkGroup" width="400"/>
+<img src="./resource/dingtalk-group.png" alt="DingTalkGroup" width="400"/>
