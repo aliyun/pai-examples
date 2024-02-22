@@ -19,3 +19,6 @@ build/
 
 # OS
 .DS_Store
+
+# nox venv
+.nox

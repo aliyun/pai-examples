@@ -2,12 +2,7 @@ import nox
 from nox.sessions import Session
 
 
-PASSING_ENVIRONMENTS = {
-    "PAI_TEST_CONFIG": "test.ini",
-}
-
-
-@nox.session(reuse_venv=True)
+@nox.session(venv_backend="conda", reuse_venv=True, python="3.8")
 def integration(session: Session):
     """Run jupyter notebook test with nbmake.
 
@@ -30,9 +25,8 @@ def integration(session: Session):
 
     session.run(
         "pytest",
-        "--timeout",
-        "3000",
         "--nbmake",
+        "--nbmake-timeout=1800",
         "-n=auto",
         *posargs,
     )
