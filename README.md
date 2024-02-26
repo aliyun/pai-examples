@@ -31,4 +31,4 @@ The project is developed by Alibaba Cloud and licensed under the Apache License 
 
 For support or inquiries, please open an issue on the GitHub repository or contact us in the DingTalk group:
 
-<img src="./_static/dingtalk-group.png" alt="DingTalkGroup" width="400"/>
+<img src="./resource/dingtalk-group.png" alt="DingTalkGroup" width="400"/>
