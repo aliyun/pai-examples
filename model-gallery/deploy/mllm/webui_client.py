@@ -118,7 +118,6 @@ def transform_messages(original_messages):
 
 
 def _launch_ui(model, client, args):
-
     def call_local_model(messages, max_tokens, temperature, timeout, use_stream):
         try:
             messages = transform_messages(messages)
@@ -147,7 +146,6 @@ def _launch_ui(model, client, args):
             raise gr.Error(e.message)
 
     def create_predict_fn():
-
         def predict(
             _chatbot, task_history, max_tokens, temperature, timeout, use_stream
         ):
@@ -192,7 +190,6 @@ def _launch_ui(model, client, args):
         return predict
 
     def create_regenerate_fn():
-
         def regenerate(
             _chatbot, task_history, max_tokens, temperature, timeout, use_stream
         ):
