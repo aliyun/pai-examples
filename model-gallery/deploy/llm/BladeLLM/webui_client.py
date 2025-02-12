@@ -51,6 +51,8 @@ css = """
 
 
 def _launch_ui(model_name, client, args):
+    def post_process(text):
+        return text.replace("<think>", "&lt;think&gt;").replace("</think>", "&lt;/think&gt;")
     def _transform_messages(history, max_rounds, apply_max_rounds, system_prompt):
         messages = []
         if system_prompt:
@@ -89,7 +91,7 @@ def _launch_ui(model_name, client, args):
         messages = _transform_messages(
             _chatbot, max_rounds, apply_max_rounds, system_prompt
         )
-        print(f"Messages: {json.dumps(messages)}")
+        print(f"Messages: {json.dumps(messages,ensure_ascii=False,indent=2)}")
         request = {"messages": messages, "stream": use_stream, "max_tokens": max_tokens}
         if apply_temperature:
             request["temperature"] = temperature
@@ -106,6 +108,7 @@ def _launch_ui(model_name, client, args):
             json=request,
             stream=use_stream,
         )
+        print("Response:", end="")
         if use_stream:
             generated_text = ""
             for chunk in response.iter_lines(chunk_size=8192, decode_unicode=False):
@@ -116,15 +119,18 @@ def _launch_ui(model_name, client, args):
                         break
                     else:
                         resp = json.loads(info)
-                        generated_text += resp["choices"][0]["delta"]["content"]
+                        generated_text += post_process(resp["choices"][0]["delta"]["content"])
+                        print(resp["choices"][0]["delta"]["content"], end="")
                         _chatbot[-1] = (chat_query, generated_text)
                         yield _chatbot
         else:
             resp = json.loads(response.text)
-            generated_text = resp["choices"][0]["message"]["content"]
+            generated_text = post_process(resp["choices"][0]["message"]["content"])
+            print(generated_text, end="")
             _chatbot[-1] = (chat_query, generated_text)
             yield _chatbot
-
+        print()
+        
     def add_text(history, text):
         history = history if history is not None else []
         history.append([text, None])  # [user_query, bot_response]
@@ -184,7 +190,7 @@ def _launch_ui(model_name, client, args):
                                     maximum=2.0,
                                     step=0.01,
                                     label="temperature",
-                                    value=0.0,
+                                    value=0.7,
                                 )
 
                             with gr.Row():
