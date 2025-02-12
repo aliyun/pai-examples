@@ -44,6 +44,8 @@ css = """
 
 
 def _launch_ui(model_name, client, args):
+    def _post_process(text):
+        return text.replace("<think>", "&lt;think&gt;").replace("</think>", "&lt;/think&gt;")
     def _transform_messages(history, max_rounds, apply_max_rounds, system_prompt):
         messages = []
         if system_prompt:
@@ -80,7 +82,7 @@ def _launch_ui(model_name, client, args):
         messages = _transform_messages(
             _chatbot, max_rounds, apply_max_rounds, system_prompt
         )
-        print(f"Messages: {json.dumps(messages)}")
+        print(f"Messages: {json.dumps(messages, ensure_ascii=False, indent=2)}")
         gen = client.chat.completions.create(
             messages=messages,
             model=model_name,
@@ -89,16 +91,20 @@ def _launch_ui(model_name, client, args):
             temperature=temperature if apply_temperature else NOT_GIVEN,
             stream=use_stream,
         )
+        print("Response:", end="")
         if use_stream:
             generated_text = ""
             for chunk in gen:
-                generated_text += chunk.choices[0].delta.content
+                generated_text += _post_process(chunk.choices[0].delta.content)
+                print(chunk.choices[0].delta.content, end="")
                 _chatbot[-1] = (chat_query, generated_text)
                 yield _chatbot
         else:
-            generated_text = gen.choices[0].message.content
+            generated_text = _post_process(gen.choices[0].message.content)
+            print(gen.choices[0].message.content, end="")
             _chatbot[-1] = (chat_query, generated_text)
             yield _chatbot
+        print()
 
     def add_text(history, text):
         history = history if history is not None else []
@@ -147,7 +153,7 @@ def _launch_ui(model_name, client, args):
                                     maximum=2.0,
                                     step=0.01,
                                     label="temperature",
-                                    value=0.0,
+                                    value=0.7,
                                 )
 
                             with gr.Row():
