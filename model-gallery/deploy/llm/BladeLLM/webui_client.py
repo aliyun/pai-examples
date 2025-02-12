@@ -52,7 +52,10 @@ css = """
 
 def _launch_ui(model_name, client, args):
     def _post_process(text):
-        return text.replace("<think>", "&lt;think&gt;").replace("</think>", "&lt;/think&gt;")
+        return text.replace("<think>", "&lt;think&gt;").replace(
+            "</think>", "&lt;/think&gt;"
+        )
+
     def _transform_messages(history, max_rounds, apply_max_rounds, system_prompt):
         messages = []
         if system_prompt:
@@ -119,7 +122,9 @@ def _launch_ui(model_name, client, args):
                         break
                     else:
                         resp = json.loads(info)
-                        generated_text += _post_process(resp["choices"][0]["delta"]["content"])
+                        generated_text += _post_process(
+                            resp["choices"][0]["delta"]["content"]
+                        )
                         print(resp["choices"][0]["delta"]["content"], end="")
                         _chatbot[-1] = (chat_query, generated_text)
                         yield _chatbot
@@ -130,7 +135,7 @@ def _launch_ui(model_name, client, args):
             _chatbot[-1] = (chat_query, generated_text)
             yield _chatbot
         print()
-        
+
     def add_text(history, text):
         history = history if history is not None else []
         history.append([text, None])  # [user_query, bot_response]

@@ -45,7 +45,10 @@ css = """
 
 def _launch_ui(model_name, client, args):
     def _post_process(text):
-        return text.replace("<think>", "&lt;think&gt;").replace("</think>", "&lt;/think&gt;")
+        return text.replace("<think>", "&lt;think&gt;").replace(
+            "</think>", "&lt;/think&gt;"
+        )
+
     def _transform_messages(history, max_rounds, apply_max_rounds, system_prompt):
         messages = []
         if system_prompt:
